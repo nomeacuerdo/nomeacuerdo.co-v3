@@ -1,0 +1,11 @@
+@reference "../../app/globals.css";
+
+.NavBar {
+  @apply fixed top-0 w-full bg-slate-800 backdrop-blur-sm z-50 py-4 flex justify-center space-x-8 text-slate-300 text-base;
+
+  background-color: var(--bg-secondary);
+}
+
+.link {
+  @apply cursor-pointer hover:text-orange-400 transition;
+}
