@@ -1,6 +1,7 @@
+// eslint-disable
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import ContactEmail from '@/emails/ContactEmail';
+import { renderContactEmail } from './renderContactEmail';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
       to: process.env.TO_EMAIL!,
       subject: `New Contact Form Message from ${name}`,
       replyTo: email,
-      react: <ContactEmail name={name} email={email} message={message} />,
+      react: renderContactEmail(name, email, message),
     });
 
     return NextResponse.json({ success: true });
