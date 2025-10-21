@@ -3,18 +3,39 @@ import { useState } from "react";
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<string | null>(null);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm({ ...form, [e.target.name]: e.target.value });
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    alert("Message sent! (mock)");
-    setForm({ name: "", email: "", message: "" });
-  };
+    const form = e.currentTarget;
+    const data = {
+      name: form.name.valueOf,
+      email: form.email.value,
+      message: form.message.value,
+    };
+
+    setStatus('Sending...');
+
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (res.ok) {
+      setStatus('✅ Message sent successfully!');
+      form.reset();
+    } else {
+      setStatus('❌ There was a problem sending your message.');
+    }
+  }
 
   return (
     <>
-      <h2 className="text-2xl md:text-3xl font-semibold text-orange-400">Contact Me (soon)</h2>
-      <form onSubmit={handleSubmit} className="space-y-4 opacity-10">
+      <h2 className="text-2xl md:text-3xl font-semibold text-orange-400">Contact Me</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
           name="name"
@@ -45,6 +66,7 @@ export default function ContactForm() {
         <button type="submit" className="bg-orange-600 hover:bg-orange-500 hover:drop-shadow-[0_0_10px_rgba(255,115,0,0.8)] w-full py-2 rounded-md transition">
           Send Message
         </button>
+        {status && <p className="text-center mt-2 text-sm">{status}</p>}
       </form>
     </>
   );

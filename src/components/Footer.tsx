@@ -1,11 +1,12 @@
 "use client"
-import { FaGithub, FaLinkedin, FaPaperPlane } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaPaperPlane, FaFilePdf } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 export default function Footer() {
   const footerIcons = [
       { id: 1, icon: <FaGithub className="text-white text-4xl hover:text-orange-500 transition" />, name: "Github", link: "https://github.com/nomeacuerdo" },
       { id: 2, icon: <FaLinkedin className="text-white text-4xl hover:text-orange-500 transition" />, name: "Linkedin", link: "https://linkedin.com/in/nomeacuerdo" },
+      { id: 4, icon: <FaFilePdf className="text-white text-4xl hover:text-orange-500 transition" />, name: "Curriculum", link: "/cv-nomeacuerdo-1025.pdf" },
       { id: 3, icon: <FaPaperPlane className="text-white text-4xl hover:text-orange-500 transition" />, name: "Mail", link: "mailto:nomeacuerdo+contact@gmail.com" },
     ];
 
