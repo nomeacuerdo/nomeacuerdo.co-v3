@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import NavBar from "@/components/NavBar/NavBar";
 import About from "@/components/About/About";
 import Projects from "@/components/Projects/Projects";
@@ -23,10 +25,16 @@ export default function Portfolio() {
 
       <Section
         id="contact"
-        className="text-center space-y-6 max-w-md w-full pb-20 fade-section"
+        className="px-4 text-center space-y-6 max-w-md w-full pb-20 fade-section scroll-mt-[60px]"
       >
         <ContactForm />
       </Section>
+      <Image
+        src="/favicon.png"
+        width={16}
+        height={16}
+        alt="nomeacuerdo.co"
+      />
     </Container>
   );
 }

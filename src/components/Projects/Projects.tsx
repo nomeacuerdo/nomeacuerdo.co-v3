@@ -20,7 +20,7 @@ export default function Projects() {
     <>
       <h2 className="text-2xl md:text-3xl font-semibold text-orange-400">Projects</h2>
       <div className="text-center py-4 snap-x container overflow-x-auto">
-        <div className="flex flex-col md:flex-row gap-6 px-4">
+        <div className="flex flex-col md:flex-row gap-6">
           {projects.map((proj) => (
             <motion.div
               key={proj.id}
@@ -62,6 +62,7 @@ export default function Projects() {
           <p>
             Well, you&apos;re already looking at the project, but here&apos;s a dancing frog in case you want to see more:
           </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="https://cdn3.emoji.gg/emojis/40586-bop-cat.gif" width={128} height={128} alt="dance!" />
           <button
             type="button"

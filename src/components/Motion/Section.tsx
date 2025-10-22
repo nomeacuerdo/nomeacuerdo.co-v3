@@ -26,7 +26,7 @@ export default function AnimatedSection(
   { children?: ReactNode, id: string, animate?: string, className?: string }
 ) {
   const controls = useScrollFadeIn();
-  const defaultClasses = "text-center space-y-6 fade-section";
+  const defaultClasses = "px-4 text-center space-y-6 fade-section scroll-mt-[60px]";
   
   return (
     <motion.section

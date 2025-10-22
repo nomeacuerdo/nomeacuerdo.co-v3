@@ -2,7 +2,7 @@
 import styles from './NavBar.module.css';
 
 export default function NavBar() {
-  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   
   return(
     <nav className={styles.NavBar}>
