@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Monda, PT_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
 
 const monda = Monda({
@@ -34,6 +35,7 @@ export default function RootLayout({
         className={`${monda.variable} ${ptSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
