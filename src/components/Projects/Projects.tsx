@@ -27,7 +27,7 @@ export default function Projects() {
               whileHover={{ scale: 1.05 }}
               className="w-[280px] bg-slate-800 rounded-2xl overflow-hidden shadow-lg snap-center flex-shrink-0 transition"
             >
-              <Image src={proj.img} alt={proj.title} width={280} height={160} className="w-full h-40 object-cover" />
+              <Image src={proj.img} alt={proj.title} width={280} height={160} loading="lazy" className="w-full h-40 object-cover" />
               <div className="flex flex-col h-auto p-4 space-y-2 grow">
                 <h3 className="text-lg font-bold">{proj.title}</h3>
                 <p className="text-slate-400 text-sm grow h-[60px]">{proj.description}</p>

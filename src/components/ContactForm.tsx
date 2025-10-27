@@ -9,14 +9,14 @@ export default function ContactForm() {
   
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-  const form = e.currentTarget;
-  const formData = new FormData(form);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-  const data = {
-    name: formData.get('name') as string,
-    email: formData.get('email') as string,
-    message: formData.get('message') as string,
-  };
+    const data = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      message: formData.get('message') as string,
+    };
 
     setStatus('Sending...');
 

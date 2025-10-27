@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from 'next/script';
 import { Geist_Mono, Monda, PT_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
@@ -31,6 +32,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js" strategy="beforeInteractive" crossOrigin="anonymous"></Script>
+      </head>
       <body
         className={`${monda.variable} ${ptSans.variable} ${geistMono.variable} antialiased`}
       >

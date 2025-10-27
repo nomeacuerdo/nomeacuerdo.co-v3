@@ -1,5 +1,5 @@
 "use client"
-import { ReactNode, useEffect } from "react";
+import { ReactNode, RefObject, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { fadeVariants } from "@/constants";
 
@@ -22,8 +22,8 @@ function useScrollFadeIn(threshold = 0.1) {
 }
 
 export default function AnimatedSection(
-  { children, id, animate, className }:
-  { children?: ReactNode, id: string, animate?: string, className?: string }
+  { children, id, animate, className, ref }:
+  { children?: ReactNode, id: string, animate?: string, className?: string, ref?: RefObject<HTMLDivElement | null> }
 ) {
   const controls = useScrollFadeIn();
   const defaultClasses = "px-4 text-center space-y-6 fade-section scroll-mt-[60px]";
@@ -35,6 +35,7 @@ export default function AnimatedSection(
       variants={fadeVariants}
       initial="hidden"
       animate={animate || controls}
+      ref={ref}
     >
       {children}
     </motion.section>
