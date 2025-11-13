@@ -20,6 +20,13 @@ const projects = [
       link: "https://yonosoychef.co/",
       description: "Landing page and project administration. React.js, Material UI and Firebase"
     },
+    {
+      id: 4,
+      title: "Tidal Collage",
+      img: "/tidal-collage.png",
+      link: "https://tidal-collage.vercel.app/",
+      description: "A simple project to practice Tidal API and server functions. Next.js, Tailwind and Tidal API"
+    },
   ];
 
   export default projects;
