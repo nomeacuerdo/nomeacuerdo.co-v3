@@ -20,7 +20,6 @@ export default function ContactForm() {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
       message: formData.get('message') as string,
-      middleName: formData.get('middleName') as string,
       sentAt: Number(formData.get('sentAt')),
     };
 
@@ -57,14 +56,6 @@ export default function ContactForm() {
     <>
       <h2 className="text-2xl md:text-3xl font-semibold text-orange-400">Contact Me</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="middleName"
-          autoComplete="off"
-          tabIndex={-1}
-          aria-hidden="true"
-          className="hidden"
-        />
         <input type="hidden" name="sentAt" value={String(sentAt)} />
         <input
           type="text"

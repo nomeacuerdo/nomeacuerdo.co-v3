@@ -16,8 +16,6 @@ type ContactPayload = {
   name?: unknown;
   email?: unknown;
   message?: unknown;
-  website?: unknown;
-  middleName?: unknown;
   sentAt?: unknown;
 };
 
@@ -129,19 +127,6 @@ export async function POST(req: Request) {
 
     const body = (await req.json()) as ContactPayload;
 
-    // Honeypot field should stay empty.
-    const honeypot =
-      typeof body.middleName === 'string'
-        ? body.middleName
-        : typeof body.website === 'string'
-          ? body.website
-          : '';
-
-    if (honeypot.trim().length > 0) {
-      console.info(`[contact:${requestId}] honeypot triggered`, { ip });
-      return NextResponse.json({ success: false, ignored: true, requestId });
-    }
-
     const name = typeof body.name === 'string' ? body.name.trim() : '';
     const email = typeof body.email === 'string' ? body.email.trim() : '';
     const message = typeof body.message === 'string' ? body.message.trim() : '';
@@ -219,7 +204,7 @@ export async function POST(req: Request) {
       const providerError = buildProviderDebug(resendResult.error);
       const hint =
         SHOW_CONTACT_DEBUG && providerError?.message?.toLowerCase().includes('resolve')
-          ? 'Verify your sender domain in Resend and try FROM_EMAIL=onboarding@resend.dev as a control test.'
+          ? 'Verify your sender domain in Resend and try the control test.'
           : undefined;
 
       return NextResponse.json({ error: 'Email provider rejected the message.', requestId, providerError, hint }, { status: 502 });
