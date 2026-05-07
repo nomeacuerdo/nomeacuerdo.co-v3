@@ -1,8 +1,12 @@
 "use client"
 import { useState } from "react";
 
+const SHOW_CONTACT_DEBUG =
+  process.env.NODE_ENV !== 'production' || process.env.NEXT_PUBLIC_CONTACT_DEBUG === 'true';
+
 export default function ContactForm() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sentAt] = useState<number>(() => Date.now());
   const [status, setStatus] = useState<string | null>(null);
   
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,6 +20,8 @@ export default function ContactForm() {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
       message: formData.get('message') as string,
+      middleName: formData.get('middleName') as string,
+      sentAt: Number(formData.get('sentAt')),
     };
 
     setStatus('Sending...');
@@ -26,11 +32,24 @@ export default function ContactForm() {
       body: JSON.stringify(data),
     });
 
-    if (res.ok) {
-      setStatus('✅ Message sent successfully!');
+    const result = await res.json().catch(() => null);
+
+    if (res.ok && result?.success === true) {
+      setStatus('✅ Message sent successfully! 😎');
+      setForm({ name: '', email: '', message: '' });
       form.reset();
     } else {
-      setStatus('❌ There was a problem sending your message.');
+      const providerReason = typeof result?.providerError?.message === 'string' ? ` (${result.providerError.message})` : '';
+      const hint = typeof result?.hint === 'string' ? ` ${result.hint}` : '';
+      const reason = typeof result?.error === 'string' ? `${result.error}${providerReason}${hint}` : 'There was a problem sending your message.';
+      const requestId = typeof result?.requestId === 'string' ? ` [id: ${result.requestId}]` : '';
+      if (result?.ignored) {
+        setStatus('🛑 Submission blocked. 😒');
+      } else if (SHOW_CONTACT_DEBUG) {
+        setStatus(`🛑 ${reason}${requestId}`);
+      } else {
+        setStatus('🛑 There was a problem sending your message. 🫤');
+      }
     }
   }
 
@@ -38,6 +57,15 @@ export default function ContactForm() {
     <>
       <h2 className="text-2xl md:text-3xl font-semibold text-orange-400">Contact Me</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          name="middleName"
+          autoComplete="off"
+          tabIndex={-1}
+          aria-hidden="true"
+          className="hidden"
+        />
+        <input type="hidden" name="sentAt" value={String(sentAt)} />
         <input
           type="text"
           name="name"
