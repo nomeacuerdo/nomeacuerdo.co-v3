@@ -38,16 +38,16 @@ export default function ContactForm() {
       setForm({ name: '', email: '', message: '' });
       form.reset();
     } else {
+      const error = typeof result?.error === 'string' ? result.error : 'There was a problem sending your message.';
       const providerReason = typeof result?.providerError?.message === 'string' ? ` (${result.providerError.message})` : '';
       const hint = typeof result?.hint === 'string' ? ` ${result.hint}` : '';
-      const reason = typeof result?.error === 'string' ? `${result.error}${providerReason}${hint}` : 'There was a problem sending your message.';
-      const requestId = typeof result?.requestId === 'string' ? ` [id: ${result.requestId}]` : '';
+      const debugInfo = SHOW_CONTACT_DEBUG && typeof result?.requestId === 'string' ? ` [id: ${result.requestId}]` : '';
+      const fullMessage = `${error}${providerReason}${hint}${debugInfo}`;
+      
       if (result?.ignored) {
         setStatus('🛑 Submission blocked. 😒');
-      } else if (SHOW_CONTACT_DEBUG) {
-        setStatus(`🛑 ${reason}${requestId}`);
       } else {
-        setStatus('🛑 There was a problem sending your message. 🫤');
+        setStatus(`🛑 ${fullMessage} 🫤`);
       }
     }
   }
