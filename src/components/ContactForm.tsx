@@ -5,7 +5,7 @@ const SHOW_CONTACT_DEBUG =
   process.env.NODE_ENV !== 'production' || process.env.NEXT_PUBLIC_CONTACT_DEBUG === 'true';
 
 export default function ContactForm() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", message: "", bot_check: "" });
   const [sentAt] = useState<number>(() => Date.now());
   const [status, setStatus] = useState<string | null>(null);
   
@@ -20,6 +20,7 @@ export default function ContactForm() {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
       message: formData.get('message') as string,
+      bot_check: formData.get('bot_check') as string,
       sentAt: Number(formData.get('sentAt')),
     };
 
@@ -35,7 +36,7 @@ export default function ContactForm() {
 
     if (res.ok && result?.success === true) {
       setStatus('✅ Message sent successfully! 😎');
-      setForm({ name: '', email: '', message: '' });
+      setForm({ name: '', email: '', message: '', bot_check: '' });
       form.reset();
     } else {
       const error = typeof result?.error === 'string' ? result.error : 'There was a problem sending your message.';
@@ -57,6 +58,19 @@ export default function ContactForm() {
       <h2 className="text-2xl md:text-3xl font-semibold text-orange-400">Contact Me</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input type="hidden" name="sentAt" value={String(sentAt)} />
+        {/* Honeypot field - visually hidden, excluded from screen readers and keyboard navigation */}
+        <div style={{ position: 'absolute', left: '-9999px', top: '-9999px' }} aria-hidden="true">
+          <label htmlFor="bot_check">Leave this field blank</label>
+          <input
+            id="bot_check"
+            type="text"
+            name="bot_check"
+            value={form.bot_check}
+            onChange={handleChange}
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
         <input
           type="text"
           name="name"

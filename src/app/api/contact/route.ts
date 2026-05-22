@@ -16,6 +16,7 @@ type ContactPayload = {
   name?: unknown;
   email?: unknown;
   message?: unknown;
+  bot_check?: unknown;
   sentAt?: unknown;
 };
 
@@ -130,7 +131,13 @@ export async function POST(req: Request) {
     const name = typeof body.name === 'string' ? body.name.trim() : '';
     const email = typeof body.email === 'string' ? body.email.trim() : '';
     const message = typeof body.message === 'string' ? body.message.trim() : '';
+    const bot_check = typeof body.bot_check === 'string' ? body.bot_check.trim() : '';
     const sentAt = Number(body.sentAt);
+
+    if (bot_check) {
+      console.warn(`[contact:${requestId}] rejected: honeypot filled`, { ip, bot_check });
+      return NextResponse.json({ success: true, ignored: true, requestId });
+    }
 
     const submittedTooFast = Number.isFinite(sentAt)
       ? Date.now() - sentAt < MIN_SECONDS_TO_SUBMIT * 1000
